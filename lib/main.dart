@@ -41,10 +41,8 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
             child: ConstrainedBox(
               constraints: const BoxConstraints(
-                minWidth: 800,
-                maxWidth: 800,
-                minHeight: 600,
-                maxHeight: 900,
+                maxWidth: 700,
+                maxHeight: 500,
               ),
               child: SteamContainer(
                 padding: const EdgeInsets.all(8),
