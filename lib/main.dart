@@ -27,82 +27,85 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Expanded(child: Image.asset('assets/background.jpg')),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(
-                  minWidth: 800,
-                  maxWidth: 1400,
-                  minHeight: 600,
-                  maxHeight: 900,
-                ),
-                child: SteamContainer(
-                  padding: const EdgeInsets.all(8),
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  height: MediaQuery.of(context).size.height * 0.8,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Row(
-                        children: [
-                          const SaitamTitle(),
-                          const Spacer(),
-                          SteamIconButton(
-                              size: 20, onPressed: () {}, icon: Icons.minimize),
-                          const SizedBox(width: 8),
-                          SteamIconButton(
-                              size: 20,
-                              onPressed: () {},
-                              icon: Icons.square_outlined),
-                          const SizedBox(width: 8),
-                          SteamIconButton(
-                              size: 20, onPressed: () {}, icon: Icons.close),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Expanded(
-                        child: SteamContainer(
-                          child: SteamSingleChildScrollView(
-                            child: Center(
-                              child: ConstrainedBox(
-                                constraints:
-                                    const BoxConstraints(maxWidth: 1000),
-                                child: const Padding(
-                                  padding: EdgeInsets.all(20.0),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          ProfileWindow(),
-                                          SizedBox(
-                                            width: 16,
-                                          ),
-                                          Expanded(child: Introduction()),
-                                        ],
-                                      ),
-                                      SizedBox(height: 50),
-                                    ],
-                                  ),
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/assets/background.jpg'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                minWidth: 800,
+                maxWidth: 800,
+                minHeight: 600,
+                maxHeight: 900,
+              ),
+              child: SteamContainer(
+                padding: const EdgeInsets.all(8),
+                width: MediaQuery.of(context).size.width * 0.8,
+                height: MediaQuery.of(context).size.height * 0.8,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        const SaitamTitle(),
+                        const Spacer(),
+                        SteamIconButton(
+                            size: 20, onPressed: () {}, icon: Icons.minimize),
+                        const SizedBox(width: 8),
+                        SteamIconButton(
+                            size: 20,
+                            onPressed: () {},
+                            icon: Icons.square_outlined),
+                        const SizedBox(width: 8),
+                        SteamIconButton(
+                            size: 20, onPressed: () {}, icon: Icons.close),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Expanded(
+                      child: SteamContainer(
+                        child: SteamSingleChildScrollView(
+                          child: Center(
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 1000),
+                              child: const Padding(
+                                padding: EdgeInsets.all(20.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        ProfileWindow(),
+                                        SizedBox(
+                                          width: 16,
+                                        ),
+                                        Expanded(child: Introduction()),
+                                      ],
+                                    ),
+                                    SizedBox(height: 50),
+                                  ],
                                 ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      const LinkButtons(),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 8),
+                    const LinkButtons(),
+                  ],
                 ),
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
