@@ -36,73 +36,91 @@ class HomePage extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: 700,
-                maxHeight: 500,
-              ),
-              child: SteamContainer(
-                padding: const EdgeInsets.all(8),
-                width: MediaQuery.of(context).size.width * 0.8,
-                height: MediaQuery.of(context).size.height * 0.8,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Row(
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            final bool isSmallScreen = constraints.maxWidth < 800;
+            var width = MediaQuery.of(context).size.width *
+                (isSmallScreen ? 0.95 : 0.8);
+            return Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: isSmallScreen ? 10 : 50, vertical: 10),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minWidth: isSmallScreen ? 0 : 800,
+                    maxWidth: 800,
+                    minHeight: 600,
+                    maxHeight: 900,
+                  ),
+                  child: SteamContainer(
+                    padding: const EdgeInsets.all(8),
+                    width: width,
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        const SaitamTitle(),
-                        const Spacer(),
-                        SteamIconButton(
-                            size: 20, onPressed: () {}, icon: Icons.minimize),
-                        const SizedBox(width: 8),
-                        SteamIconButton(
-                            size: 20,
-                            onPressed: () {},
-                            icon: Icons.square_outlined),
-                        const SizedBox(width: 8),
-                        SteamIconButton(
-                            size: 20, onPressed: () {}, icon: Icons.close),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Expanded(
-                      child: SteamContainer(
-                        child: SteamSingleChildScrollView(
-                          child: Center(
-                            child: ConstrainedBox(
-                              constraints: const BoxConstraints(maxWidth: 1000),
-                              child: const Padding(
-                                padding: EdgeInsets.all(20.0),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        ProfileWindow(),
-                                        SizedBox(
-                                          width: 16,
-                                        ),
-                                        Expanded(child: Introduction()),
-                                      ],
-                                    ),
-                                    SizedBox(height: 50),
-                                  ],
+                        Row(
+                          children: [
+                            const SaitamTitle(),
+                            const Spacer(),
+                            SteamIconButton(
+                                size: 20,
+                                onPressed: () {},
+                                icon: Icons.minimize),
+                            const SizedBox(width: 8),
+                            SteamIconButton(
+                                size: 20,
+                                onPressed: () {},
+                                icon: Icons.square_outlined),
+                            const SizedBox(width: 8),
+                            SteamIconButton(
+                                size: 20, onPressed: () {}, icon: Icons.close),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Expanded(
+                          child: SteamContainer(
+                            child: SteamSingleChildScrollView(
+                              child: Center(
+                                child: ConstrainedBox(
+                                  constraints:
+                                      const BoxConstraints(maxWidth: 1000),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: isSmallScreen
+                                        ? const Column(
+                                            children: [
+                                              ProfileWindow(),
+                                              SizedBox(
+                                                height: 16,
+                                              ),
+                                              Introduction(),
+                                            ],
+                                          )
+                                        : const Row(
+                                            children: [
+                                              ProfileWindow(),
+                                              SizedBox(
+                                                width: 16,
+                                              ),
+                                              Expanded(child: Introduction()),
+                                            ],
+                                          ),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
+                        const SizedBox(height: 8),
+                        LinkButtons(isSmallScreen: isSmallScreen),
+                      ],
                     ),
-                    const SizedBox(height: 8),
-                    const LinkButtons(),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
+            );
+          },
         ),
       ),
     );
@@ -231,8 +249,8 @@ class Introduction extends StatelessWidget {
 }
 
 class LinkButtons extends StatelessWidget {
-  const LinkButtons({super.key});
-
+  const LinkButtons({super.key, required this.isSmallScreen});
+  final bool isSmallScreen;
   // To customize the links, change the URLs in this list.
   static const links = {
     'Steam UI on GitHub': 'https://github.com/solismatias/steam_ui',
@@ -247,7 +265,7 @@ class LinkButtons extends StatelessWidget {
       height: 50,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        spacing: 16,
+        spacing: isSmallScreen ? 8 : 16,
         children: links.entries.map((entry) {
           return Expanded(child: LinkButton(text: entry.key, url: entry.value));
         }).toList(),
@@ -270,9 +288,15 @@ class LinkButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SteamButton(
-      onPressed: _launchUrl,
-      child: Text(text),
+    return SizedBox(
+      width: 200,
+      child: SteamButton(
+        onPressed: _launchUrl,
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+        ),
+      ),
     );
   }
 }
